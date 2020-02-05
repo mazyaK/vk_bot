@@ -39,12 +39,12 @@ for event in longpoll.listen():
                     user_id=event.obj.from_id,
                     random_id=get_random_id(),
                     message=f"{RS} Какая картинка вас интересует? {RS}")
-                request = event.obj.text
+                request = "Рыба"
                 obj = Parser()
                 downl_img = obj.main(request)
-
             else:
                 vk.messages.send(
                     user_id=event.obj.from_id,
                     random_id=get_random_id(),
                     message=f"{RS} Не понимаю вас {RS}")
+

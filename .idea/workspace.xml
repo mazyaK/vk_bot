@@ -104,7 +104,7 @@
       <workItem from="1580174692758" duration="114000" />
       <workItem from="1580423906464" duration="1204000" />
       <workItem from="1580672254879" duration="1990000" />
-      <workItem from="1580936856561" duration="4186000" />
+      <workItem from="1580936856561" duration="6066000" />
     </task>
     <servers />
   </component>
@@ -126,6 +126,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/vk_bot$bot.coverage" NAME="bot Coverage Results" MODIFIED="1580938055609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/vk_bot$parser_vk_bot.coverage" NAME="parser_vk_bot Coverage Results" MODIFIED="1580939188699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/vk_bot$parser_vk_bot.coverage" NAME="parser_vk_bot Coverage Results" MODIFIED="1580942401329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
