@@ -1,11 +1,10 @@
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.utils import get_random_id
-import parser
-
+from parser_vk_bot import Parser
 
 # API-ключ группы
-token="7afd60fd6fe2645c93bc254f644081b6c6879dd7acf612311d337cf2f2a4054e5b4de6aafc1ca8cfcd990"
+token = "7afd60fd6fe2645c93bc254f644081b6c6879dd7acf612311d337cf2f2a4054e5b4de6aafc1ca8cfcd990"
 
 # Авторизируемся как сообщество
 vk_session = vk_api.VkApi(token=token)
@@ -27,9 +26,9 @@ for event in longpoll.listen():
             request = event.obj.text
             if request == "Привет":
                 vk.messages.send(
-                        user_id=event.obj.from_id,
-                        random_id=get_random_id(),
-                        message=f"{RS} Приветствую {RS}")
+                    user_id=event.obj.from_id,
+                    random_id=get_random_id(),
+                    message=f"{RS} Приветствую {RS}")
             elif request == "Пока":
                 vk.messages.send(
                     user_id=event.obj.from_id,
@@ -41,7 +40,7 @@ for event in longpoll.listen():
                     random_id=get_random_id(),
                     message=f"{RS} Какая картинка вас интересует? {RS}")
                 request = event.obj.text
-                obj = parser.parser()
+                obj = Parser()
                 downl_img = obj.main(request)
 
             else:
@@ -49,11 +48,3 @@ for event in longpoll.listen():
                     user_id=event.obj.from_id,
                     random_id=get_random_id(),
                     message=f"{RS} Не понимаю вас {RS}")
-
-
-
-
-
-
-
-

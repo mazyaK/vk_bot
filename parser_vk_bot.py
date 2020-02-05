@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup as BS
 from datetime import datetime
 import random
 
-class parser():
+
+class Parser:
 
     def __init__(self):
         self.downl_list = []
@@ -20,7 +21,6 @@ class parser():
         except AttributeError:
             return 1, img_count
 
-
     def parsing(self, html, obj, win_size_w, win_size_h):
         global i_count
         global downl_list
@@ -34,20 +34,17 @@ class parser():
                 size_h = int(aa.get('href').split('/')[-2].split('x')[1])
                 if win_size_w == size_w and win_size_h == size_h:
                     url_size = aa.get('href')
-                    downl_list.append(url_size)
+                    self.downl_list.append(url_size)
                 else:
                     continue
-        random_el = random.choice(downl_list)
+        random_el = random.choice(self.downl_list)
         soup2 = BS(get_html(random_el, self.E_SITE), features="html.parser")
         image_url = soup2.find(id='img').get('src')
         name = f'img/{obj} - {image_url.split("-")[-1]}'
         save_file(image_url, name)
         print(f'|{name.split("/")[-1]:^{33}}|{"Загружен":^{10}}|')
-        i_count += 1
-        return i_count
-
-
-
+        self.i_count += 1
+        return self.i_count
 
     def main(self, list_obj):
 
@@ -68,7 +65,5 @@ class parser():
             print('-' * 51, end='\n')
             print(f'Скачано:{inc}')
         end_time = datetime.now()
-        print(f'Затрачено времени:{str(end_time-start_time).split(".")[0]:^{50}}')
+        print(f'Затрачено времени:{str(end_time - start_time).split(".")[0]:^{50}}')
         print('-' * 51, end='\n')
-
-
