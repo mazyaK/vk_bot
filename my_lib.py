@@ -19,3 +19,4 @@ def save_file(url, name):
         os.mkdir('img')
         with open(name, 'bw') as f:
             f.write(r.content)
+

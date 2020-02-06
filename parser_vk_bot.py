@@ -40,30 +40,28 @@ class Parser:
         random_el = random.choice(self.downl_list)
         soup2 = BS(get_html(random_el, self.E_SITE), features="html.parser")
         image_url = soup2.find(id='img').get('src')
-        name = f'img/{obj} - {image_url.split("-")[-1]}'
+        name = f'img/{obj}' + '.jpg'
         save_file(image_url, name)
         print(f'|{name.split("/")[-1]:^{33}}|{"Загружен":^{10}}|')
         self.i_count += 1
         return self.i_count
 
-    def main(self, list_obj):
+    def main(self, obj):
 
         start_time = datetime.now()
         win_width = 1920
         win_heigth = 1080
-
-        for obj in list_obj:
-            url = f'https://www.nastol.com.ua/tags/{quote(obj.strip(), encoding=self.E_SITE)}/page/1/'
-            pages, img_count = self.get_pages(get_html(url, self.E_SITE))
-            page = random.randint(1, pages)
-            base_url = f'https://www.nastol.com.ua/tags/{quote(obj.strip(), encoding=self.E_SITE)}/page/{page}/'
-            print(f'{img_count}\nСтраница:{page}-{pages}')
-            print('-' * 51)
-            print(f'|{"Категория - имя файла":{33}}|{"Статус":{10}}|')
-            print('-' * 51)
-            inc = self.parsing(get_html(base_url, self.E_SITE), obj, win_width, win_heigth)
-            print('-' * 51, end='\n')
-            print(f'Скачано:{inc}')
+        url = f'https://www.nastol.com.ua/tags/{quote(obj.strip(), encoding=self.E_SITE)}/page/1/'
+        pages, img_count = self.get_pages(get_html(url, self.E_SITE))
+        page = random.randint(1, pages)
+        base_url = f'https://www.nastol.com.ua/tags/{quote(obj.strip(), encoding=self.E_SITE)}/page/{page}/'
+        print(f'{img_count}\nСтраница:{page}-{pages}')
+        print('-' * 51)
+        print(f'|{"Категория - имя файла":{33}}|{"Статус":{10}}|')
+        print('-' * 51)
+        inc = self.parsing(get_html(base_url, self.E_SITE), obj, win_width, win_heigth)
+        print('-' * 51, end='\n')
+        print(f'Скачано:{inc}')
         end_time = datetime.now()
         print(f'Затрачено времени:{str(end_time - start_time).split(".")[0]:^{50}}')
         print('-' * 51, end='\n')
