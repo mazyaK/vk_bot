@@ -42,6 +42,10 @@ def send_photo(vk, peer_id, owner_id, photo_id, access_key):
         attachment=attachment
     )
 
+# Задаем параметры клавиатуры
+keyboard = open('keyboards.json', "r", encoding="UTF-8").read()
+keyboard = str(keyboard)
+
 # Основной цикл
 for event in longpoll.listen():
     # Если пришло новое  сообщение
@@ -54,12 +58,16 @@ for event in longpoll.listen():
                 vk.messages.send(
                     user_id=event.obj.from_id,
                     random_id=get_random_id(),
-                    message=f"{RS} Приветствую ")
+                    message=f"{RS} Приветствую ",
+                    keyboard=keyboard)
+
             elif request == "Пока":
                 vk.messages.send(
                     user_id=event.obj.from_id,
                     random_id=get_random_id(),
-                    message=f"{RS} Буду ждать вашего письма ")
+                    message=f"{RS} Буду ждать вашего письма ",
+                    keyboard=keyboard)
+
             elif request == "Картинка":
                 vk.messages.send(
                     user_id=event.obj.from_id,
@@ -67,6 +75,7 @@ for event in longpoll.listen():
                     message=f"{RS} Какая картинка вас интересует? ")
                 # ЗДЕСЬ В НАШ СЛОВАРЬ ДОБАВЛЯЕМ/ОБНОВЛЯЕМ ЗНАЧЕНИЕ У ЮЗЕРА ЧТО ОН ХОЧЕТ КАРТИНКУ И НЕКСТ СООБЩЕНИЕ О КАРТИНКЕ
                 users.update({event.obj.from_id: "ЖДЕМ НАЗВАНИЕ КАРТИНКИ"})
+
             elif request == "Погода":
                 vk.messages.send(
                     user_id=event.obj.from_id,
@@ -80,9 +89,11 @@ for event in longpoll.listen():
                     vk.messages.send(
                         user_id=event.obj.from_id,
                         random_id=get_random_id(),
-                        message=f"{RS} Не понимаю вас ")
+                        message=f"{RS} Не понимаю вас ",
+                        keyboard=keyboard)
+
                 elif users.get(event.obj.from_id) == "ЖДЕМ НАЗВАНИЕ КАРТИНКИ":
-                    # ВОТ ТУТ МЫ ОБРАБАТЫВАЕМ СООБЩЕНИЕ О ТОМ КАКУЮ КАРТИНКУ ИСКАТЬ
+                    # ВОТ ТУТ МЫ ОБРАБАТЫВАЕМ СООБЩЕНИЕ О ТОМ, КАКУЮ КАРТИНКУ ИСКАТЬ
                     users.pop(event.obj.from_id)
                     obj = Parser()
                     downl_img = obj.main(request)
@@ -92,19 +103,32 @@ for event in longpoll.listen():
                     vk.messages.send(
                         user_id=event.obj.from_id,
                         random_id=get_random_id(),
-                        message=f"{RS} Вот, что мне удалось найти ")
+                        message=f"{RS} Вот, что мне удалось найти ",
+                        keyboard=keyboard)
+
                     # отправка скачанной картинки
                     send_photo(vk, event.obj.from_id, *upload_photo(vk, path_to_downl_img))
                     # удаление скачанной картинки
                     os.remove(path_to_downl_img)
                 elif users.get(event.obj.from_id) == "ЖДЕМ НАЗВАНИЕ ГОРОДА(ПОГОДА)":
-                    # ВОТ ТУТ МЫ ОБРАБАТЫВАЕМ СООБЩЕНИЕ О ТОМ ПОГОДУ В КАКОМ ГОРОДЕ ИСКАТЬ
+                    # ВОТ ТУТ МЫ ОБРАБАТЫВАЕМ СООБЩЕНИЕ О ТОМ, ПОГОДУ В КАКОМ ГОРОДЕ ИСКАТЬ
                     users.pop(event.obj.from_id)
                     obj = Weather()
-                    temp = obj.main(request)
-                    temp_send = str(round(temp-273.15, 2)) + "°C"
-                    # отправка сообщения перед скачанной картинки
+                    conditions, temp, temp_min, temp_max = obj.main(request)
                     vk.messages.send(
                         user_id=event.obj.from_id,
                         random_id=get_random_id(),
-                        message=f"{RS} Температура в городе {request} = {temp_send} ")
+                        message=f"{RS} {conditions} ")
+                    vk.messages.send(
+                        user_id=event.obj.from_id,
+                        random_id=get_random_id(),
+                        message=f"{RS} Температура сейчас: {temp} °С")
+                    vk.messages.send(
+                        user_id=event.obj.from_id,
+                        random_id=get_random_id(),
+                        message=f"{RS} Минимальная температура: {temp_min} °С")
+                    vk.messages.send(
+                        user_id=event.obj.from_id,
+                        random_id=get_random_id(),
+                        message=f"{RS} Максимальная температура: {temp_max} °С",
+                        keyboard=keyboard)

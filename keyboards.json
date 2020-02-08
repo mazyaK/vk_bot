@@ -1,0 +1,19 @@
+{
+  "one_time": false,
+  "buttons": [
+    [{
+      "action": {
+        "type": "text",
+        "label": "Картинка"
+      },
+      "color": "default"
+    },
+      {
+        "action": {
+          "type": "text",
+          "label": "Погода"
+        },
+        "color": "default"
+      }]
+  ]
+}
